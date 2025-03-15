@@ -1,0 +1,5 @@
+Rolling 1d20+6... (4) +6 = 10
+Rolling 6d5+12... (4, 2, 3, 3, 3, 2) +12 = 29
+Rolling 2d20kl1... (2, 9) +0 = 2 [misfortune]
+Rolling 3d20kh1... (4, 20) +0 = 20 [fortune]
+Rolling 2d20kh1+4... (6, 11) +4 = 15 [fortune]

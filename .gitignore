@@ -1,7 +1,3 @@
-# Ignore Go binaries
-/bin/
-/pkg/
-/vendor/
-*.exe
-*.out
-*.log
+build/bin
+node_modules
+frontend/dist
