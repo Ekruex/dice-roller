@@ -1,0 +1,7 @@
+# Ignore Go binaries
+/bin/
+/pkg/
+/vendor/
+*.exe
+*.out
+*.log
