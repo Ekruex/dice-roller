@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PF2e Dice Roller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
+
+        body {
+            background-color: #2c1d1f;
+            color: #e0c18d;
+            font-family: 'IM Fell English SC', serif;
+        }
+
+        .pf2e-card {
+            background: #3a292b;
+            border: 3px solid #e0c18d;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 204, 128, 0.3);
+        }
+
+        .roll-result {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            text-shadow: 2px 2px 5px rgba(255, 204, 128, 0.8);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .roll-result:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-roll {
+            background: linear-gradient(45deg, #b22222, #8b0000);
+            color: white;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-roll:hover {
+            background: linear-gradient(45deg, #ff4500, #b22222);
+            box-shadow: 0px 0px 10px rgba(255, 204, 128, 0.6);
+        }
+
+        .input-roll {
+            background: #3a292b;
+            border: 2px solid #e0c18d;
+            padding: 8px;
+            border-radius: 5px;
+            color: #e0c18d;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center min-h-screen p-6">
+
+    <div class="pf2e-card w-full max-w-lg text-center">
+        <h1 class="text-3xl text-red-400">🎲 PF2e Dice Roller</h1>
+
+        <!-- Input Field for Dice Rolls -->
+        <form id="rollForm" class="mt-4 flex">
+            <input type="text" id="rollInput" placeholder="Enter roll (e.g., 1d20+5, 2d6+3, 2d20kh1)" 
+                class="input-roll flex-1">
+            <button type="submit" class="btn-roll ml-2">Roll 🎲</button>
+        </form>
+
+        <!-- Dice Roll Results -->
+        <h2 class="mt-6 text-xl text-yellow-300">Results</h2>
+        <div id="rollResults" class="mt-4 space-y-3"></div>
+    </div>
+
+    <script>
+        async function fetchRoll(roll) {
+            const response = await fetch('/roll', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ roll })
+            });
+
+            const data = await response.json();
+            return data.result;
+        }
+
+        document.getElementById('rollForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const input = document.getElementById('rollInput');
+            const roll = input.value.trim();
+            if (!roll) return;
+
+            const result = await fetchRoll(roll);
+            const rollResults = document.getElementById('rollResults');
+
+            const div = document.createElement('div');
+            div.classList.add("roll-result", "text-lg", "text-yellow-300");
+            div.textContent = result;
+            rollResults.prepend(div); // Show latest roll on top
+
+            input.value = '';
+        });
+    </script>
+
+</body>
+</html>
